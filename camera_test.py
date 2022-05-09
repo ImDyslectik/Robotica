@@ -7,7 +7,7 @@ cap = cv2.VideoCapture(0)
 while(True):
     ret,leuk = cap.read()
 
-    frame = leuk[20:460, 20:620]
+    frame = leuk[40:40, 40:600]
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
