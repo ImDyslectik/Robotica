@@ -54,6 +54,8 @@ while True:
 
 
     cv.circle(ROI, (int(width/2), 40), 2, (255,0,255), 2)
+    cv.line(ROI, (270, 0), (270, 80), (255,0,255), 2)
+    cv.line(ROI, (370, 0), (370, 80), (255,0,255), 2)
     cv.imshow("frame", ROI)
     if cv.waitKey(1) == ord('q'):
         break
