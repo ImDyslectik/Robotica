@@ -5,11 +5,11 @@ import math
 cap = cv2.VideoCapture(0)
 
 while(True):
-    ret,frame = cap.read()
+    ret,leuk = cap.read()
+
+    frame = leuk[20:460, 20:620]
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    #lower_blue = np.array([60, 35, 140])
-    #upper_blue = np.array([180, 255, 255])
 
     lower_light_blue = np.array([90,50,50])
     upper_light_blue = np.array([130,255,255])
@@ -19,7 +19,6 @@ while(True):
     ret,th = cv2.threshold(mask_blue,180,255,cv2.THRESH_BINARY)
     contours, hierarchy = cv2.findContours(th,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     
-    hierarchy = hierarchy[0]
     for cnt in range(len(contours)):
         area = cv2.contourArea(contours[cnt])
         if area < 500:
