@@ -1,8 +1,9 @@
 import numpy as np
 import cv2 as cv
 
+#create videocapture device and check if camera is working
+#also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
-
 if not cap.isOpened():
     print("Cannot open camera")
     exit()

@@ -1,8 +1,9 @@
 import numpy as np
 import cv2 as cv
 
+#create videocapture device and check if camera is working
+#also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
-
 if not cap.isOpened():
     print("Cannot open camera")
     exit()
@@ -40,7 +41,6 @@ while True:
         cy = int(M['m01']/M['m00'])
 
         cv.circle(ROI, (cx, cy), 2, (0,255,255), 2)
-        
 
         if cx < 270:
             print("go left")
@@ -51,7 +51,6 @@ while True:
         if cx > 370:
             print("go right")
             continue
-
 
     cv.circle(ROI, (int(width/2), 40), 2, (255,0,255), 2)
     cv.line(ROI, (270, 0), (270, 80), (255,0,255), 2)

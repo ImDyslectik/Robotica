@@ -1,7 +1,7 @@
 from GPIOEmulator.EmulatorGUI import GPIO
 import time
 
-#setup pins, 
+#setup pins, inputs and outputs
 GPIO.setmode(GPIO.BCM)
 TRIG = 23
 ECHO = 24
