@@ -1,6 +1,6 @@
 import numpy as np
 import cv2 as cv
-
+import classes
 #create videocapture device and check if camera is working
 #also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
@@ -10,8 +10,8 @@ if not cap.isOpened():
 width = cap.get(cv.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv.CAP_PROP_FRAME_HEIGHT)
 
-lower = np.array([0,0,0])
-upper = np.array([360,255,30])
+lower = np.array([50,50,30])
+upper = np.array([90,255,255])
 
 print("{} {}".format(width, height))
 while True:
@@ -21,7 +21,7 @@ while True:
         print("cannot recieve frame")
         break
     
-    ROI = frame[400:480, 0:640]
+    ROI = frame[420:480, 0:640]
     hsv = cv.cvtColor(ROI, cv.COLOR_BGR2HSV)
 
     mask = cv.inRange(hsv, lower, upper)
@@ -42,19 +42,8 @@ while True:
 
         cv.circle(ROI, (cx, cy), 2, (0,255,255), 2)
 
-        if cx < 270:
-            print("go left")
-            continue
-        if cx > 270 and cx < 370:
-            print("go straight")
-            continue
-        if cx > 370:
-            print("go right")
-            continue
-
-    cv.circle(ROI, (int(width/2), 40), 2, (255,0,255), 2)
-    cv.line(ROI, (270, 0), (270, 80), (255,0,255), 2)
-    cv.line(ROI, (370, 0), (370, 80), (255,0,255), 2)
+        cv.drawContours(ROI, [cnt], -1, (0,255,255), 2)
+        classes.Motor.Left(1)
     cv.imshow("frame", ROI)
     if cv.waitKey(1) == ord('q'):
         break

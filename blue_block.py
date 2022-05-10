@@ -1,15 +1,16 @@
 import cv2
 import numpy as np
-
+import classes
 #create videocapture device and check if camera is working
 cap = cv2.VideoCapture(0)
+
 if not cap.isOpened():
     print("Cannot open camera")
     exit()
 
 while(True):
     ret,vid = cap.read()
-    frame = vid[40:40, 40:600]
+    frame = vid[40:400, 40:600]
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     #create a blue color mask since we are scanning for a blue block
@@ -31,12 +32,20 @@ while(True):
         cx = int(M['m10']/M['m00'])
         cy = int(M['m01']/M['m00'])
 
-        cv2.circle(frame, (cx, cy), 2, (0,255,255), 2)
-    
+        if cx < 270:
+            classes.Motor.Left(1)
+            continue
+        if cx > 270 and cx < 370:
+            classes.Motor.Forward(1)
+            continue
+        if cx > 370:
+            classes.Motor.Right(1)
+            continue
     #show a frame with the result containing contours and a frame with our blue mask for debugging
     #also make a break statement if you want to quit 
     cv2.imshow('frame', frame)
     cv2.imshow("Blue", detected_output_blue)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
 cv2.destroyAllWindows()
