@@ -3,6 +3,7 @@ import numpy as np
 import classes
 #create videocapture device and check if camera is working
 cap = cv2.VideoCapture(0)
+
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
 
 if not cap.isOpened():
