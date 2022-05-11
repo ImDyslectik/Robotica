@@ -2,6 +2,8 @@ from GPIOEmulator.EmulatorGUI import GPIO
 import time
 import classes
 
+movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
+
 #setup pins, inputs and outputs
 GPIO.setmode(GPIO.BCM)
 TRIG = 23
@@ -27,6 +29,6 @@ while(True):
     #needs real envirment testing to determine braking distance
     if(distance < 40):
       #make motor slowly wind down if within within maximum braking distance
-      classes.Motor.Backward(1)
+      movement.Backward()
       print ("Distance:",distance,"cm")
   GPIO.cleanup()

@@ -4,6 +4,8 @@ import classes
 #create videocapture device and check if camera is working
 #also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
+movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
+
 if not cap.isOpened():
     print("Cannot open camera")
     exit()
@@ -43,13 +45,13 @@ while True:
         cv.circle(ROI, (cx, cy), 2, (0,255,255), 2)
 
         if cx < 270:
-            classes.Motor.Left(1)
+            movement.Left()
             continue
         if cx > 270 and cx < 370:
-            classes.Motor.Forward(1)
+            movement.Forward()
             continue
         if cx > 370:
-            classes.Motor.Right(1)
+            movement.Right()
             continue
 
     cv.circle(ROI, (int(width/2), 40), 2, (255,0,255), 2)

@@ -3,8 +3,7 @@ import numpy as np
 import classes
 #create videocapture device and check if camera is working
 cap = cv2.VideoCapture(0)
-
-movement = classes.Movement(motor1=classes.Movement, motor2=classes.Movement, motor3=classes.Movement, motor4=classes.Movement)
+movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
 
 if not cap.isOpened():
     print("Cannot open camera")
@@ -35,13 +34,13 @@ while(True):
         cy = int(M['m01']/M['m00'])
 
         if cx < 270:
-            classes.Motor(9)
+            movement.Left()
             continue
         if cx > 270 and cx < 370:
-            #movement.Forwards()
+            movement.Forward()
             continue
         if cx > 370:
-            #movement.Right()
+            movement.Right()
             continue
     #show a frame with the result containing contours and a frame with our blue mask for debugging
     #also make a break statement if you want to quit 
