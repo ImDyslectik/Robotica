@@ -5,17 +5,17 @@
 # M1 ---- M2
 #    front
 #
-# M1 ---- M2
+# M3 ---- M4
 #    back
 
 class Motor:
-    def __init__(self, pin):
-        self.pin = pin
+    def __init__(self, motor):
+        self.motor = motor
     def forward(self):
-        print("forward on :", self.pin)
+        print("forward on :", self.motor)
 
     def backward(self):
-        print("backward on : ", self.pin)
+        print("backward on : ", self.motor)
 
 class Movement:
     def __init__(self, motor1, motor2):
