@@ -27,8 +27,7 @@ int main(){
         //read the opened pipe and store 80 characters in the array
         read(fd1, str1, 80);
 
-        if (str1[1]-[10].equals("enginefor")){
-            engineForward(str1[11, str1[12]])
+        if (strstr(str1,"engineForward")){
             printf("yaya")
         }
         //print the array to the screen
