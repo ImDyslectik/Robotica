@@ -8,8 +8,6 @@ import classes
 FIFO = '/tmp/myfifo'
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
 
-
-
 try:
     #try to make a fifo (pipe), this might throw an error
     os.mkfifo(FIFO)
@@ -20,13 +18,11 @@ except OSError as oe:
 
 print("Opening FIFO...")
 #open the pipe
-with open(FIFO) as fifo:
+with open(FIFO,"w") as fifo:
     print("FIFO opened")
     while True:
         #read data from the pipe
-        fifo.open("data","w+")
         fifo.write(Movement.Left)
-        fifo.close()
         data = fifo.write(string)
         #read until the writer is empty
         if len(data) == 0:
