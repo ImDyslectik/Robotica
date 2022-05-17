@@ -9,9 +9,11 @@
 
 static int sent()
 {
+    long current_micros = micros();
 	long start = 0;
 	long end = 0;
 	float distance = 0;
+    long  failure = current_micros + 500000;
 	
 	digitalWrite(TRIG, LOW);
 	delayMicroseconds(2);
@@ -20,12 +22,12 @@ static int sent()
 	delayMicroseconds(10); 
 	digitalWrite(TRIG, LOW);
 	
-	while (digitalRead(ECHO) == LOW) {
+	while (digitalRead(ECHO) == LOW && micros() < failure) {
 	}
 	
 	start = micros();
 	
-	while (digitalRead(ECHO) == HIGH) {
+	while (digitalRead(ECHO) == HIGH && micros() < failure) {
 	}
 	
 	end = micros();
