@@ -2,11 +2,10 @@ import os
 import errno
 import string
 from tkinter import W
-from Vision.classes import Movement
 import classes
 #define the path to our pipe
 FIFO = '/tmp/myfifo'
-movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
+movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
 
 try:
     #try to make a fifo (pipe), this might throw an error
@@ -20,13 +19,14 @@ print("Opening FIFO...")
 #open the pipe
 with open(FIFO,"w") as fifo:
     print("FIFO opened")
-    while True:
-        #read data from the pipe
-        fifo.write(Movement.Left)
-        data = fifo.write(string)
-        #read until the writer is empty
-        if len(data) == 0:
-            print("Writer closed")
-            break
-        #print what we read!
-        print('Read: {0}'.format(data))
+    direction = (movement.Left)
+    for c in direction:
+        fifo.write(c + "\n")
+    # while True:
+    #     #write data to the pipe
+    #     data = fifo.write("")
+    #     if len(data) == 0:
+    #         print("Writer closed")
+    #         break
+    #     #print what we read!
+    #     print('Read: {0}'.format(data))

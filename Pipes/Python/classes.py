@@ -12,21 +12,22 @@ class Motor:
     def __init__(self, motor):
         self.motor = motor
     def forward(self):
-        print("forward on :", self.motor)
-
+        return "F"
     def backward(self):
-        print("backward on : ", self.motor)
-
+        return "B"
+        
 class Movement:
     def __init__(self, motor1, motor2):
         self.motor1 = motor1
         self.motor2 = motor2
     def Left(self):
-        self.motor1.backward()
-        self.motor2.forward()
+        command = []
+        command.append(self.motor1.backward())
+        command.append(self.motor2.forward())
     def Right(self):
-        self.motor1.forward()
-        self.motor2.backward()
+        command = []
+        command.append(self.motor1.forward())
+        command.append(self.motor2.backward())
     def Forward(self):
         self.motor1.forward()
         self.motor2.forward()
