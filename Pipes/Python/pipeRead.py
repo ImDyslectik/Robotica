@@ -1,8 +1,11 @@
 import os
 import errno
 import string
-from tkinter import W
+
+import sys
+sys.path.insert(1,'C:/Users/robin/Documents/Robotica project/Robotica/Facade/P')
 import classes
+
 #define the path to our pipe
 FIFO = '/tmp/myfifo'
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
