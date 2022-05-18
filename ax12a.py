@@ -10,22 +10,24 @@ print("dit programma is")
 
 while True:
         GPIO.output(18, GPIO.HIGH)
-        port.write(bytearray.fromhex("FF FF FE 05 03 1E 32 03 A6"))
+        port.write(bytearray.fromhex("FF FF 15 05 03 1E 05 02 BD"))
         time.sleep(0.0000001)
         GPIO.output(18, GPIO.LOW)
         time.sleep(3)
         while port.in_waiting:
             print(port.read())
-        print("EEN FIETS")
+        print("Boven")
+        time.sleep(7)
 
         GPIO.output(18,GPIO.HIGH)
-        port.write(bytearray.fromhex("FF FF FE 05 03 1E CD 00 0E"))
+        port.write(bytearray.fromhex("FF FF 15 05 03 1E CD 00 F7"))
         time.sleep(0.0000001)
         GPIO.output(18,GPIO.LOW)
         time.sleep(3)
         while port.in_waiting:
             print(port.read())
-        print("ZONDER BANDEN")
+        print("Rechts")
+        time.sleep(8)
 
 GPIO.cleanup()
         
