@@ -27,9 +27,12 @@ int main(){
         //read the opened pipe and store 80 characters in the array
         read(fd1, str1, 80);
 
-        if (strstr(str1,"engineForward")){
-            printf("yaya")
+        if (strstr(str1,"F")){
+            printf("C: Forwards");
         }
+        else if (strstr(str1,"B")){
+            printf("C: Backwards");
+        };
         //print the array to the screen
         printf(str1);
         
