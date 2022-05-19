@@ -3,7 +3,7 @@ import errno
 import string
 
 import sys
-sys.path.insert(1,'C:/Users/robin/Documents/Robotica project/Robotica/Facade/P')
+sys.path.insert(1,'/home/pi/shared/scripts/Robotica/Facade/P')
 import classes
 
 #define the path to our pipe

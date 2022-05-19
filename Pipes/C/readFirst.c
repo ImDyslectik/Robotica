@@ -27,17 +27,17 @@ int main(){
         //read the opened pipe and store 80 characters in the array
         read(fd1, str1, 80);
 
-        if (strstr(str1,"F")){
-            printf("Forwards on 1");
+        if (strstr(str1,"F1")){
+            printf("Forwards on 1\n");
         }
-        else if (strstr(str1,"B")){
-            printf("Backwards on 1");
+        if (strstr(str1,"B1")){
+            printf("Backwards on 1\n");
         }
-	else if(strstr(str1,"F")){
-		printf("Forwards on 2");
+	if(strstr(str1,"F2")){
+		printf("Forwards on 2\n");
 	}
-	else if(strstr(str1,"B")){
-		printf(str1,"Backwards on 2");
+	if(strstr(str1,"B2")){
+		printf(str1,"Backwards on 2\n");
 	}
         //print the array to the screen
         printf(str1);

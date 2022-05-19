@@ -1,10 +1,12 @@
 import numpy as np
 import cv2 as cv
+import sys
+sys.path.insert(1,'/home/pi//shared/scripts/Robotica/Facade/P')
 import classes
 #create videocapture device and check if camera is working
 #also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
-movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2),motor3=classes.Motor(3),motor4=classes.Motor(4))
+movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
 
 if not cap.isOpened():
     print("Cannot open camera")

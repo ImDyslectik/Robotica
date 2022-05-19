@@ -15,7 +15,7 @@ class Motor:
         output = ("F"+(str(motor)))
         return output
     def backward(self,motor):
-        output = ("b"+(str(motor)))
+        output = ("B"+(str(motor)))
         return output
         
 class Movement:
