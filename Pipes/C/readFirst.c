@@ -28,11 +28,17 @@ int main(){
         read(fd1, str1, 80);
 
         if (strstr(str1,"F")){
-            printf("C: Forwards");
+            printf("Forwards on 1");
         }
         else if (strstr(str1,"B")){
-            printf("C: Backwards");
-        };
+            printf("Backwards on 1");
+        }
+	else if(strstr(str1,"F")){
+		printf("Forwards on 2");
+	}
+	else if(strstr(str1,"B")){
+		printf(str1,"Backwards on 2");
+	}
         //print the array to the screen
         printf(str1);
         

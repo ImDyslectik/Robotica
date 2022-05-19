@@ -22,7 +22,7 @@ print("Opening FIFO...")
 #open the pipe
 with open(FIFO,"w") as fifo:
     print("FIFO opened")
-    direction = (movement.Left)
+    direction = (movement.Left())
     for c in direction:
         fifo.write(c + "\n")
     # while True:
