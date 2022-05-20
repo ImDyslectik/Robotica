@@ -5,9 +5,11 @@ import string
 import sys
 sys.path.insert(1,'/home/pi/shared/scripts/Robotica/Facade/P')
 import classes
+from classes import Motor
 
 #define the path to our pipe
 FIFO = '/tmp/myfifo'
+Vision = '/tmp/command'
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
 
 try:
@@ -20,11 +22,13 @@ except OSError as oe:
 
 print("Opening FIFO...")
 #open the pipe
-with open(FIFO,"w") as fifo:
+with open(Vision,"r") as fifo:
     print("FIFO opened")
-    direction = (movement.Left())
-    for c in direction:
-        fifo.write(c + "\n")
+    direction =  fifo.read()
+    fifo.close()
+    with open(Vision,"w") as fifo:
+        for c in direction:
+            fifo.write(c + "\n")
     # while True:
     #     #write data to the pipe
     #     data = fifo.write("")

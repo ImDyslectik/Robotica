@@ -11,7 +11,7 @@ int main(){
     int fd1;
 
     //set the path where we're opening the pipe
-    char * myfifo = "/tmp/myfifo";
+    char * myfifo = "/tmp/command";
 
     //make the fifo, this is the pipe
     mkfifo(myfifo, 0666);
@@ -40,7 +40,7 @@ int main(){
 		printf(str1,"Backwards on 2\n");
 	}
         //print the array to the screen
-        printf(str1);
+        printf("");
         
         //open the fifo, this time in write only mode
         //fd1 = open(myfifo, O_WRONLY);

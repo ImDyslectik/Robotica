@@ -9,13 +9,13 @@
 #    back
 
 class Motor:
-    def __init__(self, motor):
-        self.motor = motor
-    def forward(self,motor):
-        output = ("F"+(str(motor)))
+    def __init__(self, pin):
+        self.pin = pin
+    def forward(self,pin):
+        output = ("F"+str(pin))
         return output
-    def backward(self,motor):
-        output = ("B"+(str(motor)))
+    def backward(self,pin):
+        output = ("B"+str(pin))
         return output
         
 class Movement:
@@ -26,17 +26,17 @@ class Movement:
         command = []
         command.append(self.motor1.backward(1))
         command.append(self.motor2.forward(2))
-        return command
+        return str(command)
     def Right(self):
         command = []
         command.append(self.motor1.forward(1))
         command.append(self.motor2.backward(2))
-        return command
+        return str(command)
     def Forward(self):
         command = []
         command.append(self.motor1.forward(1))
         command.append(self.motor2.forward(2))
-        return command
+        return str(command)
     def Backward(self):
         command = []
         command.append(self.motor1.backward(1))

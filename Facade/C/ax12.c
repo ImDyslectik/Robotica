@@ -4,10 +4,15 @@
 //
 #include <stdio.h>
 #include <stdint.h>
+#include<stdlib.h>
+
 #include "ax12.h"
 
+#include <wiringPi.h>
+
 void ax12Move(ax12 s, int degrees){
-    unsigned short int packet[9];
+    u_int8_t packet[9];
+    u_int8_t response[6];
 
     uint16_t d = (uint16_t)(degrees * (1023.0 / 300.0));
 
@@ -22,8 +27,19 @@ void ax12Move(ax12 s, int degrees){
     packet[7] = d>>8;
     packet[8] = ~((packet[2]+packet[3]+packet[4]+packet[5]+packet[6]+packet[7]))&0xFF;
 
-    for(int i = 0; i < 9; i++){
-        printf("%02X\n",packet[i]);
+    int fd = getFileDescriptor();
+
+    digitalWrite(1, HIGH); 
+    write(fd,packet, sizeof(packet)); 
+    usleep(150); 
+    digitalWrite(1, LOW); 
+    read(fd, response, sizeof(response));
+
+    for (int i = 0; i < sizeof(response); i++){
+        printf("%02X\n", response[i]);
     }
 
+    close(fd);
+    return ;
 }
+

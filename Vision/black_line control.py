@@ -1,12 +1,15 @@
 import numpy as np
 import cv2 as cv
 import sys
+sys.path.insert(1,'/home/pi/shared/scripts/Robotica/Pipes/Python')
 sys.path.insert(1,'/home/pi//shared/scripts/Robotica/Facade/P')
 import classes
+import pipeRead
 #create videocapture device and check if camera is working
 #also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
+Command = '/tmp/command'
 
 if not cap.isOpened():
     print("Cannot open camera")
@@ -45,16 +48,19 @@ while True:
         cy = int(M['m01']/M['m00'])
 
         cv.circle(ROI, (cx, cy), 2, (0,255,255), 2)
-
-        if cx < 270:
-            movement.Left()
-            continue
-        if cx > 270 and cx < 370:
-            movement.Forward()
-            continue
-        if cx > 370:
-            movement.Right()
-            continue
+        with open(Command,"w") as command:
+            if cx < 270:
+                command.write(movement.Left())
+                command.close()
+                continue
+            if cx > 270 and cx < 370:
+                command.write(movement.Forward())
+                command.close()
+                continue
+            if cx > 370:
+                command.write(movement.Right())
+                command.close()
+                continue
 
     cv.circle(ROI, (int(width/2), 40), 2, (255,0,255), 2)
     cv.line(ROI, (270, 0), (270, 80), (255,0,255), 2)
