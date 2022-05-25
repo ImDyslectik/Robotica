@@ -1,6 +1,6 @@
+#include <stdio.h>
 #include "engine.h"
-#include <softPwm.h>
-#include <pthread.h>
+#include <pthread>
 
 /*
 * @param delay_int states the delay between increasing speed for the motors
@@ -15,31 +15,36 @@ const int min = 0;
 int range;
 wiringPiSetup();
 
-void engine_backward(engine m){
-    
-    softPwmCreate(m.pinForward,min,max);
-    softPwmCreate(m.pinBackward,min,max);
+void* engine_backward(void* m){
+    struct Engine *my_engine = (struct Engine*)m;
+    printf("Thread %d \n", (*my_engine).pinForward); 
+
+    softPwmCreate((*my_engine).pinForward,min,max);
+    softPwmCreate((*my_engine).pinBackward,min,max);
     for (range = min; range <= max; ++range){
-        softPwmWrite(m.pinForward,min);
-        softPwmWrite(m.pinBackward,range);
+        softPwmWrite((*my_engine).pinForward,min);
+        softPwmWrite((*my_engine).pinBackward,range);
         delay(delay_Int);    }
     for (range = max;range >= min;range--){
-        softPwmWrite(m.pinForward,min);
-        softPwmWrite(m.pinBackward,range);
+        softPwmWrite((*my_engine).pinForward,min);
+        softPwmWrite((*my_engine).pinBackward,range);
         delay(delay_Int);
     }
 }
 
-void engine_forward(engine m){
-    softPwmCreate(m.pinForward,min,max);
-    softPwmCreate(m.pinBackward,min,max);
+void* engine_forward(void* m){
+    struct Engine *my_engine = (struct Engine*)m;
+    printf("Thread %d \n", (*my_engine).pinForward); 
+
+    softPwmCreate((*my_engine).pinForward,min,max);
+    softPwmCreate((*my_engine).pinBackward,min,max);
     for (range = min; range <= max; ++range){
-        softPwmWrite(m.pinForward,range);
-        softPwmWrite(m.pinBackward,min);
+        softPwmWrite((*my_engine).pinForward,range);
+        softPwmWrite((*my_engine).pinBackward,min);
         delay(delay_Int);    }
     for (range=max;range > min;range--){
-        softPwmWrite(m.pinForward,range);
-        softPwmWrite(m.pinBackward,min);
+        softPwmWrite((*my_engine).pinForward,range);
+        softPwmWrite((*my_engine).pinBackward,min);
         delay(delay_Int);
     }
 

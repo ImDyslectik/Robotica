@@ -8,8 +8,12 @@ typedef struct Engine {
     bool right;
 } engine;
 
-void engine_forward(engine);
+typedef struct Pairs {
+    long i,j;
+}Pairs;
+void* printer(void*);
+void* engine_forward(void*);
 
-void engine_backward(engine);
+void* engine_backward(void*);
 
 #endif //MOTOR_H
