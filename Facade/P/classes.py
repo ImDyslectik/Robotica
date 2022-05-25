@@ -41,4 +41,4 @@ class Movement:
         command = []
         command.append(self.motor1.backward(1))
         command.append(self.motor2.backward(2))
-        return command
+        return str(command)

@@ -1,14 +1,14 @@
 import numpy as np
 import cv2 as cv
 import sys
-sys.path.insert(1,'/home/pi/shared/scripts/Robotica/Pipes/Python')
 sys.path.insert(1,'/home/pi//shared/scripts/Robotica/Facade/P')
 import classes
-import pipeRead
 #create videocapture device and check if camera is working
 #also reduce width and height for increased performance
 cap = cv.VideoCapture(0)
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
+
+#set file path so that we can open it later and write to the file
 Command = '/tmp/command'
 
 if not cap.isOpened():

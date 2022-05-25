@@ -9,15 +9,14 @@
 #define TRIG 4
 #define ECHO 5
 
-static int sent(int steady_distance)
+static int sent(double steady_distance)
 {
     long current_micros = micros();
 	long start = 0;
 	long end = 0;
 	double distance = 0;
 	double range_distance = 2;
-    long  failure = current_micros + 500000;
-	int vloer = 0;
+    long failure = current_micros + 500000;
 	int max = 0;
 	int min = 0;
 	int steady = 0;
@@ -40,40 +39,25 @@ static int sent(int steady_distance)
 	end = micros();
 	
 	distance = (float) (end - start) * 0.017150;
-
 	max = floor(distance + range_distance);
 	min = floor(distance - range_distance);
 	steady = floor(steady_distance);
-	printf("abc %d\n", steady);
-	printf("def %d\n", steady_distance);
-
-
 
 	if(steady > max)
 	{
 	steady_distance = distance;
-	printf("Range_Distance: %.2f cm.\n", range_distance);
-	printf("normal: %.2f cm.\n", distance);
-	printf("Distance: %d cm.\n", steady_distance);
+	printf("Distance: %.2f cm.\n", steady_distance);
 	}
 	else if(steady < min)
 	{
 	steady_distance = distance;
-	printf("Range_Distance: %.2f cm.\n", range_distance);
-	printf("normal: %.2f cm.\n", distance);
-	printf("Distance: %d cm.\n", steady_distance);
+	printf("Distance: %.2f cm.\n", steady_distance);
 	}
 	else
 	{
-	printf("==============================================================================\n");
-	printf("!!!!Range_Distance: %.2f cm.\n", range_distance);	
-	printf("!!!!normal: %.2f cm.\n", distance);
-	printf("!!!!Distance: %d cm.\n", steady_distance);
-	printf("==============================================================================\n");
+	printf("Distance: %.2f cm.\n", steady_distance);
 	}
-	printf("min %d \n", min);
-	printf("max %d \n", max);
-	printf("steady %d \n", steady);
+
 	return steady_distance;
 }
 
