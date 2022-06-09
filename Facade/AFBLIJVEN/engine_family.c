@@ -9,27 +9,29 @@
  * M1 ---- M2
  */
 
-void move_forward(void* motor_rechts, void* motor_links, void* goal_Speed){
-    int id;
-    id = 1;
-    struct Engine *my_engine = (struct Engine*)motor_links;
-    //struct Speed *my_speed = (struct Speed*)goal_Speed;
-    //printf("GOAL SPEED Family %d \n", (*my_speed).goal_Speed);
-    //printf("Motor Links %d \n", (*my_engine).pinForward);
-    pthread_create(&id, NULL, engine_forward,((void*) (void*)(motor_rechts, goal_Speed)));
+void move_forward(void* motor_rechts, void* motor_links){
 
-    delay(1);
-    //printf("first thread completed %d \n", (*my_speed).goal_Speed);
-    id = 2;
-    pthread_create(&id, NULL, engine_forward,((void*) (void*)motor_links, goal_Speed));
-
-    pthread_exit(NULL);
+    struct Engine *my_engine_links = (struct Engine*)motor_links;
+    struct Engine *my_engine_rechts = (struct Engine*)motor_rechts;
+    int thread_ID_Links = (*my_engine_links).threadid;
+    int thread_ID_Rechts = (*my_engine_rechts).threadid;
+    //printf("GOAL SPEED Family %d \n", (*my_engine_links).goal_Speed);
+    //printf("RUN: pinForward %d pinBackward %d right %d \n", (*my_engine_links).pinForward, (*my_engine).pinBackward, (*my_engine).right); 
+    
+    pthread_create(&thread_ID_Rechts, NULL, engine_forward,(void*) motor_rechts);
+    delay(10);
+    pthread_create(&thread_ID_Links, NULL, engine_forward,(void*)motor_links);
+   
+    pthread_join(thread_ID_Rechts, NULL);
+    pthread_join(thread_ID_Links, NULL);
+    delay(20);
+    return;
 }
 
-// void move_backward(void* motor_rechts, void* motor_links, void* goal_Speed){
+// void move_backward(void* motor_rechts, void* motor_links){
 //     int id;
 //     id = 1;
-//     pthread_create(&id, NULL, engine_forward,(void*, void*)motor_rechts, goal_Speed);
+//     pthread_create(&id, NULL, engine_forward,(void*)motor_rechts);
 
 //     delay(1);
 

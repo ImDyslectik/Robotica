@@ -8,12 +8,16 @@ typedef struct Engine {
     bool right;
 } engine;
 
-typedef struct Pairs {
-    long i,j;
-}Pairs;
-void* printer(void*);
-void* engine_forward(void*);
+typedef struct Speed {
+    int goal_Speed;
+} speed;
 
-void* engine_backward(void*);
+// typedef struct Pairs {
+//     long i,j;
+// }Pairs;
+// void* printer(void*);
+void* engine_forward(void*, void*);
+
+void* engine_backward(void*, void*);
 
 #endif //MOTOR_H

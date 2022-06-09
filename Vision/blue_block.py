@@ -7,6 +7,7 @@ import classes
 cap = cv2.VideoCapture(0)
 
 movement = classes.Movement(motor1=classes.Motor(1),motor2=classes.Motor(2))
+Command = '/tmp/command'
 
 if not cap.isOpened():
     print("Cannot open camera")
@@ -27,6 +28,14 @@ while(True):
     ret,th = cv2.threshold(mask_blue,180,255,cv2.THRESH_BINARY)
     contours, hierarchy = cv2.findContours(th,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     
+    if contours:
+        pass
+    else:
+        with open(Command,"w") as command:
+            command.write(movement.Backward())
+            pass
+            #command.close()
+
     #draw contours around objects depending on if the area is smaller then 500
     for cnt in range(len(contours)):
         area = cv2.contourArea(contours[cnt])
@@ -35,16 +44,21 @@ while(True):
         M = cv2.moments(contours[cnt])
         cx = int(M['m10']/M['m00'])
         cy = int(M['m01']/M['m00'])
+        cv2.circle(frame, (cx, cy), 2, (0,255,255), 2)
 
-        if cx < 270:
-            movement.Left()
-            continue
-        if cx > 270 and cx < 370:
-            movement.Forward()
-            continue
-        if cx > 370:
-            movement.Right()
-            continue
+        with open(Command,"w") as command:
+            if cx < 270:
+                    command.write(movement.Left())
+                    #command.close()
+                    continue
+            if cx > 270 and cx < 370:
+                    command.write(movement.Forward())
+                    #command.close()
+                    continue
+            if cx > 370:
+                    command.write(movement.Right())
+                    #command.close()
+                    continue
     #show a frame with the result containing contours and a frame with our blue mask for debugging
     #also make a break statement if you want to quit 
     cv2.imshow('frame', frame)

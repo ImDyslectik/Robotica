@@ -1,12 +1,8 @@
-#print statements will be replaced to sends a signal to a pipe which will be read to control the robot
-#TODO change prints to signal to pipe to control engines
-
-#high quality drawing of my robot motor vision
-# M1 ---- M2
-#    front
-#
-# M3 ---- M4
-#    back
+"""--------------------------------------------------------------------------
+initialize pin, pin being the engine.
+we then need to combine the int and str into a string so that it can be returned
+we do this since we can't have an array with a str and int
+--------------------------------------------------------------------------"""       
 
 class Motor:
     def __init__(self, pin):
@@ -17,7 +13,13 @@ class Motor:
     def backward(self,pin):
         output = ("B"+str(pin))
         return output
-        
+
+"""--------------------------------------------------------------------------
+initialize self, motor1 and motor2 to be used in the directions
+after initializing these, every direction can put the preditermined commands
+into an array and return these.
+--------------------------------------------------------------------------"""       
+
 class Movement:
     def __init__(self, motor1, motor2):
         self.motor1 = motor1

@@ -24,7 +24,7 @@ open the pipe in read only mode first to read the commands written by Vision
 put all the commands into a variable @param direction
 then we open the file in write only mode erasing all content so far written
 write the commands gathered into the file which will be used in readFirst.c
-"""----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------""""
 
 print("Opening File...")
 with open(Command,"r") as fifo:

@@ -1,144 +1,132 @@
 #include "ttyHandler.h"
 #include "ax12.h"
 #include <stdio.h>
+#include "hc.h"
 #include "engine_family.h"
 #include "../../Pipes/C/readFirst.h"
 #include <wiringPi.h>
 #include <pthread.h>
 
-void PrintHello(void *threadid) {
-   printf("Hello World! Thread ID, %d\n", threadid);
-   pthread_exit(NULL);
-}
-
-int main1(int argc, char *argv[] ){
-
-    // int threads[4];
-    // threads[0] = 0;
-    // threads[1] = 1;
-    // //for( int i = 0; i < 2; i++ ) 
-    // //{
-    // //    pthread_create(&threads[i], NULL, PrintHello, (void* )i);
-    // //}
-    // //    pthread_exit(NULL);
-    // //threads[2] = 2;
-    // //threads[3] = 3;
-    // //set up wiringpi stuff, and set the gpio pin to output
-    wiringPiSetup();
-
-    pinMode(1, OUTPUT);
-    // int engine_command[2];
-    // readSetup(engine_command);
-
-    // while(1){
-    // reading(engine_command);
-    // //init a servo with the first argument given in the console
-    // //ax12 servo = {atoi(argv[1])};
-    // printf("%d \n",engine_command[0]);
-    // printf("%d \n",engine_command[1]);
-
-    
-
-    // engine motor1 = {23,26,true};
-    // engine motor2 = {24,25,false};
-    // engine_family x = {motor1, motor2}; 
-    
-    // for( int i = 0; i < 2; i++ ) 
-    // {
-    //     int threadid = i;
-    // //printf("thread id %d\n", threadid);
-    // // pthread_create(&threads[i], NULL, move_forward,(((void*) &threadid),((engine_family*) &x)));
-    // //pthread_create(&threads[i], NULL, PrintHello,(void*) threadid);
-    // }
-    // pthread_exit(NULL);
-
-}
-
-int main5(){
-    wiringPiSetup();
-    pinMode(1, OUTPUT);
-    ax12 servo = {18, true};
-    int potentio = 500;
-
-    while (potentio != 500) {
-        if (potentio < 500){
-            ax12Speed(servo, 100);
-        }
-        else{
-            ax12Speed(servo, -100);
-        }
-    }
-}
-
-
 int main2(){
     wiringPiSetup();
-    pinMode(1, OUTPUT);
+    pinMode(18, OUTPUT);
+    int goal_Speed_Input = 515;
+    speed *speed1;
+        speed1 = malloc(sizeof(speed1));
+        (*speed1).goal_Speed = goal_Speed_Input;
 
-    ax12 s1 = {2, false};
-    ax12 s2 = {4, false};
-    ax12Speed(s1, 30);
-    ax12Speed(s2, 30);
-    int offset = 90;
-    ax12Move(s1, (150+0));
-    ax12Move(s2, (150-0));
+     engine *motor1;
+        motor1 = malloc(sizeof(engine));
+        (*motor1).pinForward = 23;
+        (*motor1).pinBackward = 26;
+        (*motor1).right = true;
 
+        engine *motor2;
+        motor2 = malloc(sizeof(engine));
+        (*motor2).pinForward = 24;
+        (*motor2).pinBackward = 25;
+        (*motor2).right = false;
+
+        ax12 s = {18, true};
+        ax12Speed(s, 100);
+
+        delay(2000);
+        ax12Speed(s, 0);
+        printf("GOAL SPEED MAIN %d \n", (*speed1).goal_Speed);
+        move_forward(motor1,motor2, speed1);
 }
 
-int main(){
-	wiringPiSetup();
-	pinMode(1,OUTPUT);
-	engine motor1 = {23,26,true};
-	engine motor2 = {24,25,false};
-	engine_family x = {motor1,motor2};
-	
-	move_backward(x);
-}
-
-int main7(int argc, char *argv[] ){
-    // //set up wiringpi stuff, and set the gpio pin to output
+/*
+* main for testing the engine direction and servo control based on
+* air quality detection based on potmeter and vision
+*/
+int main(int argc, char *argv[] ){
     wiringPiSetup();
-
-    pinMode(1, OUTPUT);
-    int engine_command[2];
+    int engine_command[4];
     readSetup(engine_command);
+    //sensor(engine_command);
+    pinMode(1, OUTPUT);
+
+    /*
+    * The first argument is a pointer to thread_ids which is set by this function.
+    * The second argument specifies attributes. If the value is NULL, then default attributes shall be used.
+    * The third argument is name of function to be executed for the thread to be created, in our case reading()
+    * The fourth argument is used to pass arguments to the function, in our case a pointer to engine_command array.
+    */
+    int Forward = 900;
+    int Backward = 0;
+    int thread_ids = 3;
+    pthread_create(&thread_ids,NULL,reading,(int*) engine_command);
+    int thread_idss = 4;
+    pthread_create(&thread_ids,NULL,sensor,(int*) engine_command);
 
     while(1){
-        reading(engine_command);
-        printf("%d \n",engine_command[0]);
-        printf("%d \n",engine_command[1]);
-
         engine motor1 = {23,26,true};
         engine motor2 = {24,25,false};
         engine_family x = {motor1, motor2}; 
     
-        if (engine_command[0] == 1 && engine_command[1] == 1){
+        if (engine_command[0] == Forward && engine_command[1] == Forward){
+    	    //move_forward(x,1);
             printf("forward \n");
-    	    move_forward(x,1);
         }
-        if (engine_command[0] == 0 && engine_command[1] == 0){
-            printf("back \n");
-    	    move_backward(x);
+        if (engine_command[0] == Backward && engine_command[1] == Backward){
+            //printf("back \n");
+    	    //move_backward(x);
         }
-        if (engine_command[0] == 0 && engine_command[1] == 1){
+        if (engine_command[0] == Backward && engine_command[1] == Forward){
             printf("left \n");
-    	    move_left(x);
+    	    //move_left(x);
         }
-        if (engine_command[0] == 1 && engine_command[1] == 0){
+        if (engine_command[0] == Forward && engine_command[1] == Backward){
             printf("right \n");
-        	move_right(x);
-        };
+        	//move_right(x);
+        }
+        if(engine_command[2] != 1){
+        ax12 s = {18, true};
+        if (engine_command[2] == 0)
+        {
+            // printf("print niet pls %d\n", engine_command[2]);
+            // draai naar rechts
+            ax12Speed(s, 50);
+        }
+        if (engine_command[2] == 2)
+        {
+            // draai naar links
+            ax12Speed(s, -50);
+        }
+        if (engine_command[2] == 1)
+        {
+            // stop met draaien
+            ax12Speed(s, 0);
+        }
+        }
+        if (engine_command[3] == 1){
+            badAir();
+        }
     }
     return 0;
 }
 
+void badAir(){
+        int engine_command[4];
+        if (engine_command[3] == 1){
+            
+            ax12 s1 = {2, false};
+            ax12 s2 = {4, false};
+            ax12Speed(s1, 20);
+            ax12Speed(s2, 20);
+            sleep(1);
+            //servo 1 omhoog
+            ax12Move(s1, 150+105);
+            //servo 2 omlaag
+            ax12Move(s2, 150-105);
+            sleep(1);
+            //servo 1 omlaag
+            ax12Move(s1, 150+20);
+            //servo 2 omhoog
+            ax12Move(s2, 150-20);
+            sleep(1);
+            printf("smerige lucht \n");
 
-int main3(){
-    wiringPiSetup();
-    pinMode(1, OUTPUT);
-
-    ax12 s = {2, false};
-    ax12Move(s, 100);
-    sleep(3);
-    ax12Move(s, 200);
+        }
 }

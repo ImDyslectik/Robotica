@@ -7,9 +7,9 @@ typedef struct Engine_family{
     engine engineRight;
 } engine_family;
 
-void move_forward(engine_family, void* );
-void move_backward(engine_family);
-void move_left(engine_family);
-void move_right(engine_family);
+void move_forward(void* motor_rechts, void* motor_links, void*);
+void move_backward(void* motor_rechts, void* motor_links, void*);
+void move_left(void* motor_rechts, void* motor_links, void*);
+void move_right(void* motor_rechts, void* motor_links, void*);
 
 #endif //UNTITLED_ENGINE_FAMILY_H
